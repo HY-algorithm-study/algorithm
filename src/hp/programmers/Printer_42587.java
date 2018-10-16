@@ -10,11 +10,11 @@ import java.util.List;
  * Time : AM 1:32
  */
 
-public class Frinter_42587 {
+public class Printer_42587 {
     public static void main(String[] args) {
-        Frinter_42587 frinter_42587 = new Frinter_42587();
+        Printer_42587 printer_42587 = new Printer_42587();
         int arr [] = {2,2,2,1,3,4};
-        System.out.println(frinter_42587.solution(arr, 3));
+        System.out.println(printer_42587.solution(arr, 3));
     }
 
     public int solution(int[] priorities, int location) {

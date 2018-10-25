@@ -15,9 +15,19 @@
  * return 하는 solution 함수를 작성하세요.
  */
 function solution(n) {
-    let answer = 0;
+    let answer;
+    let arr = [];
+    arr[0] = 1;
+    arr[1] = 2;
+
+    for (let i = 2; i < n; i++) {
+        arr[i] = (arr[i - 1] + arr[i - 2]) % 1000000007;
+    }
+    answer = arr[n - 1];
     return answer;
 }
 
 
 console.log(solution(4)); // 5
+console.log(solution(5)); // 13
+console.log(solution(53)); // 13

@@ -29,3 +29,5 @@ function solution(n) {
 
 
 console.log(solution(4)); // 5
+console.log(solution(5)); // 13
+console.log(solution(53)); // 13

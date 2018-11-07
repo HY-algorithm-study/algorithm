@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class ChangeWord_43163 {
     Map<String, List<String>> wordSet;
-    String target = "cog";
 
     public static void main(String[] args) {
         String begin = "hit";
         String target = "cog";
 
         String[] words = {"hot", "dot", "dog", "lot", "log", "cog"};
+        //String[] words = {"hot", "dot", "dog", "lot", "log", "cog"};
 
         ChangeWord_43163 changeWord_43163 = new ChangeWord_43163();
         System.out.println(changeWord_43163.solution(begin, target, words));
@@ -29,31 +29,35 @@ public class ChangeWord_43163 {
             return 0;
         }
         wordSet = makeWordSet(begin, words);
-        List<String> history = new ArrayList<>();
-        String t = begin;
-        countAvailableLoad(begin, t, answer);
-        return answer;
+
+        Set<String> candidate = new HashSet<>();
+        Map<String, List<String>> available = new HashMap<>();
+
+        candidate.add(begin);
+        available.put(begin, wordSet.get(begin));
+        answer = findOptimizeRoute(candidate, available, target, answer);
+
+        return answer+1;
     }
 
-    private int countAvailableLoad(String begin, String history, int count) {
+   private int findOptimizeRoute(Set<String> candidate, Map<String, List<String>> available, String target, int count) {
 
-        List<String> availAble = wordSet.get(begin);
-
-        for (String word : availAble) {
-            if (history.contains(target)) {
+        Set<String> temp = new HashSet<>();
+        Map<String, List<String>> availMap = new HashMap<>();
+        for (String word : candidate) {
+            if (available.get(word).contains(target)) {
                 return count;
             }
-            if (history.contains(word)) {
-                continue;
-            } else {
-                count++;
-                history += word;
-                countAvailableLoad(word, history, count);
-            }
+            temp.addAll(available.get(word));
         }
 
-        return count;
-    }
+        for (String word : temp) {
+            availMap.put(word, wordSet.get(word));
+        }
+       count = count + 1;
+
+       return findOptimizeRoute(temp, availMap, target, count );
+   }
 
     // 각 단어마다 갈 수 있는 리스트들을 만들어줌.
     private Map<String, List<String>> makeWordSet(String begin, String[] words) {

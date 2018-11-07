@@ -51,12 +51,11 @@ public class ChangeWord_43163 {
             temp.addAll(available.get(word));
         }
 
-        for (String word : temp) {
+        temp.forEach(word -> {
             availMap.put(word, wordSet.get(word));
-        }
-       count = count + 1;
+        });
 
-       return findOptimizeRoute(temp, availMap, target, count );
+       return findOptimizeRoute(temp, availMap, target, ++count);
    }
 
     // 각 단어마다 갈 수 있는 리스트들을 만들어줌.
@@ -65,9 +64,9 @@ public class ChangeWord_43163 {
 
         stringListMap.put(begin, findWordLoad(begin, words));
 
-        for(String word : words) {
+        Arrays.asList(words).forEach(word -> {
             stringListMap.put(word, findWordLoad(word, words));
-        }
+        });
 
         return stringListMap;
     }
@@ -81,6 +80,7 @@ public class ChangeWord_43163 {
     // 갈 수 있는 길을 찾는다.
     private boolean checkSumString(String a, String b) {
         int result = 0;
+
         if (a.length() != b.length()) {
             return false;
         }

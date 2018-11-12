@@ -1,4 +1,22 @@
+/*
+ * 단어 변환 문제
+ * input : begin(시작단어), target(마지막 단어), words(바꿀 수 있는 단어 리스트)
+ * output : begin 에서 target이 될 때 까지 최소 변환 횟수
+ *
+ * 조건
+ * 1. 한번에 한 글자만 치환 가능 ex) hit -> hot, hit -> dit
+ * 2. begin과 target은 서로 다른 문자
+ */
 
+/* BFS 방법
+ * Graph를 Map으로 관리(vertex, edge[])
+ * node 를 Graph<List>로 관리
+ * begin node부터 target 노드까지 DFS 탐색...
+ *
+ * 매 스텝
+ * Candidate와
+ * targetList로 관리..
+ */
 function solution(begin, target, words) {
     let answer;
 

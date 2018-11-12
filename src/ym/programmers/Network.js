@@ -13,7 +13,7 @@ function solution(n, computers) {
     // 0번 노드에서 연결된 노드 찾기
 
     while (queue.includes(false)) {
-        for (let i = 0; i < computers.length; i++) {
+        for (let i = 1; i < computers.length; i++) {
             if (queue[i] === false) {
                 queue[i] = true;
                 answer++;
@@ -30,13 +30,14 @@ function bfs(i, computers, queue) {
         return;
     }
     // 방문 안한 노드가 남아 있을 경우
-    for (let j = 0; j < computers[i].length; j++) {
+    for (let j = i + 1; j < computers[i].length; j++) {
         if (computers[i][j] === 1) {
             queue[j] = true;
+            bfs(j, computers, queue);
         }
     }
 }
 
-console.log(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]])); // 2
-console.log(solution(3, [[1, 1, 0], [1, 1, 1], [0, 1, 1]])); // 1
-console.log(solution(4, [[1, 1, 0, 1], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, 1]])); // 2
+// console.log(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]])); // 2
+// console.log(solution(3, [[1, 1, 0], [1, 1, 1], [0, 1, 1]])); // 1
+// console.log(solution(4, [[1, 1, 0, 1], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, 1]])); // 2

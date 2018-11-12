@@ -24,8 +24,13 @@ function solution(begin, target, words) {
     if (words.includes(target) === false) {
         return 0;
     }
+
     // 배열 첫번째에 begin 추가
     words.unshift(begin);
+
+
+    // graph[0][1] : words의 0번째 단어에서 1번째 단어로 변환할 수 있는가? 있으면 1, 없으면 0
+    // hit -> hot 변환 가능한가?
 
     // graph 선언
     let graph = new Array(words.length);
@@ -46,6 +51,7 @@ function solution(begin, target, words) {
             }
         }
     }
+
     // graph dfs 탐색
     // start index는 0으로 고정
     let distance = new Array(graph.length).fill(Number.MAX_SAFE_INTEGER);
@@ -58,6 +64,7 @@ function solution(begin, target, words) {
 
     // 만약 도달할 수 없는 경로라면...
     if (answer === Number.MAX_SAFE_INTEGER) {
+        // words = ['cog' , 'dot'] target = cog, begin = hit
         answer = 0;
     }
 

@@ -1,10 +1,24 @@
 /*
- * 단어변환
- * input : begin, target, words
- * output : begin --> target 최소 단어 변환 횟수
+ * 단어 변환 문제
+ * input : begin(시작단어), target(마지막 단어), words(바꿀 수 있는 단어 리스트)
+ * output : begin 에서 target이 될 때 까지 최소 변환 횟수
+ *
+ * 조건
+ * 1. 한번에 한 글자만 치환 가능 ex) hit -> hot, hit -> dit
+ * 2. begin과 target은 서로 다른 문자
+ */
+
+/* BFS 방법
+ * Graph를 Map으로 관리(vertex, edge[])
+ * node 를 Graph<List>로 관리
+ * begin node부터 target 노드까지 DFS 탐색...
+ *
+ * 매 스텝
+ * Candidate와
+ * targetList로 관리..
  */
 function solution(begin, target, words) {
-    let answer;
+    let answer = 0;
 
     // 예외처리 추가(words에 target이 없으면 그냥 끝)
     if (words.includes(target) === false) {
@@ -19,61 +33,72 @@ function solution(begin, target, words) {
     // hit -> hot 변환 가능한가?
 
     // graph 선언
-    let graph = new Array(words.length);
-    for (let i = 0; i < graph.length; i++) {
-        graph[i] = new Array(words.length).fill(0);
-    }
+    let graph = [];
 
     // graph 할당
     for (let i = 0; i < words.length; i++) {
-        for (let j = 0; j < words.length; j++) {
+        let node = {};
+        let key = words[i];
+        let edges = [];
+        for (let j = i; j < words.length; j++) {
             if (i === j) {
-                graph[i][j] = 1;
                 continue;
             }
-            if (isPossibleMove(words[i], words[j])) {
-                graph[i][j] = 1;
-                graph[j][i] = 1;
+            // 추가
+            let candidate = words[j];
+            if (isPossibleMove(key, candidate)) {
+                edges.push(candidate);
             }
         }
+        node.vertex = key;
+        node.edges = edges;
+        graph.push(node);
     }
 
-    // graph dfs 탐색
-    // start index는 0으로 고정
-    let distance = new Array(graph.length).fill(Number.MAX_SAFE_INTEGER);
+    // console.log(graph);
 
-    // dfs
-    DFS(0, target, words, graph, distance, 0);
 
-    // arr중 최소값 반환
-    answer = Math.min.apply(null, distance);
-
-    // 만약 도달할 수 없는 경로라면...
-    if (answer === Number.MAX_SAFE_INTEGER) {
-        // words = ['cog' , 'dot'] target = cog, begin = hit
-        answer = 0;
-    }
+    let visited = new Array(words.length).fill(false);
+    answer = BFS(["hit"], target, 0, graph, visited);
 
     return answer;
 }
 
-// index에서 시작해서 target 까지 가는데 걸리는 최소경로
-function DFS(idx, target, words, graph, distance, count) {
-    if (idx > graph.length - 1) {
-        return Number.MAX_SAFE_INTEGER;
-    }
-    if (words[idx] === target) {
-        distance[idx] = distance[idx] > count ?  count : distance[idx];
-        return;
-    }
-    for (let i = idx + 1; i < graph[idx].length; i++) {
-        if (graph[idx][i] === 1) {
-            // 갈 수 있는 경로
-            let tempCount = count + 1;
-            DFS(i, target, words, graph, distance, tempCount);
+/*
+Map { 'hit' => [ 'hot' ] },
+Map { 'hot' => [ 'dot', 'lot' ] },
+Map { 'dot' => [ 'dog', 'lot' ] },
+Map { 'dog' => [ 'log', 'cog' ] },
+Map { 'lot' => [ 'log' ] },
+Map { 'log' => [ 'cog' ] },
+Map { 'cog' => [] }
+*/
+function BFS(candiArr, target, counter, graph, visited) {
+    if (counter >= graph.length) return 0;
+    let tempCandiArr = new Set();
+    for (let i = 0; i < candiArr.length; i++) {
+        let candidate = candiArr[i];
+
+        for (let j = 0; j < graph.length; j++) {
+            let node = graph[j];
+            if (visited[j]) continue;
+            if (candidate === node.vertex) { // 시작점이라면??
+                visited[j] = true;
+                for (let k = 0; k < node.edges.length; k++) {
+                    let tempTarget = node.edges[k];
+                    if (tempTarget === target) {
+                        counter++;
+                        return counter;
+                    } else {
+                        tempCandiArr.add(tempTarget);
+                    }
+                }
+            }
         }
     }
-    return;
+    tempCandiArr = Array.from(tempCandiArr);
+    counter++;
+    return BFS(tempCandiArr, target, counter, graph, visited);
 }
 
 function isPossibleMove(source, target) {
@@ -93,6 +118,6 @@ function isPossibleMove(source, target) {
     return rtnFlag;
 }
 
-console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])); // 4
-console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"])); // 0
-console.log(solution("hit", "cog", ["hot", "dot", "hog", "lot", "cog"])); // 3
+// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])); // 4
+// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"])); // 0
+// console.log(solution("hit", "cog", ["hot", "dot", "hog", "lot", "cog"])); // 3

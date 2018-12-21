@@ -9,7 +9,7 @@
  * 2. 배치된 배열을 바탕으로 합을 구한다.
  * 3. 구한 합이 타겟과 일치할 경우 카운트+1 을 하여 최종 갯수를 구한다.
  */
-public class Main {
+public class TargetNumber {
     static int resInt = 0;      //갯수
     static int insTarget = 3;   //타겟
 

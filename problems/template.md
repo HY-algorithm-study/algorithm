@@ -47,7 +47,7 @@ N은 양의 정수일 때 N!은 재귀적으로 정의할 수 있다.
 ## YM 풀이
 > 풀이법 작성
 >
-- [소스코드](../src/ym/FirstFactorial.js)
+- [소스코드](/src/ym/FirstFactorial.js)
 ## HP 풀이
 > 풀이법 작성
 >

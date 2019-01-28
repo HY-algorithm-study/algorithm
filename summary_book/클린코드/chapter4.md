@@ -1,0 +1,95 @@
+###Chapter 4 주석 
+
+
+주석은 쉰들러 리스트가 아니다. '주석은 순수하게 선하지 못하다.'  
+우리는 코드로 의도를 표현하지 못해, 즉 실패를 만회하기 윟 주석을 사용한다.  
+
+주석이 필요한 사황에 처한다면, 코드로 의도를 표현할 방법을 생각해보라  
+코드로 표현할 수 있다면 칭찬하고, 없으면 표현력이 부족한 사실에 푸념해라.  
+
+주석은 거짓말을 한다, 항상도 아니고, 고의도 아니지만 너무 거짓말을 자주한다.  
+
+코드는 변화하고 진화한다. 일부가 여기서 저기로 옮겨지기도 한다. 조각이 나뉘고 갈라지고 합쳐지면서 괴물로 변한다.  
+
+#### 4.1 주석은 나쁜 코드를 보완하지 못한다.  
+
+코드에 주석을 추가하는 일반적인 이유는 코드 품질이 나쁘기 때문이다.  
+
+#### 4.2 코드로 의도를 표현하라.
+
+확실히 코드만으로 의도를 설명하기 어려운 경우가 존재한다. 
+
+```java
+    // 직원에게 복지 혜택을 받을 자격이 있는지 검사한다.
+    if((employee.flags & HOURLY_FLAG) && 
+        (employee.age > 65))
+```
+VS
+```java
+    if (employee.isEligibleForFullBenefits())
+```
+
+몇초만 생각하면 코드로 대다수의 의돌르 표현할 수 있다.  
+
+#### 4.3 좋은 주석
+- 법적인 주석
+- 정보를 제공하는 주석  
+    때로는 주석으로 기본적인 정보를 제공하면 편리하다.    
+```java
+    // Test 중인 Responder 인스턴스를 반환한다.
+    protected abstract Responder responderInstance();
+```
+   좀더 나은 예제다.
+```java
+    // kk:mm:ss EEE, MMM dd, yyyy 형식이다.
+    Pattern timeMatcher = Pattern.comlie("~~~~~");
+```
+- 의도를 설명하는 주석 
+- 의도를 명료하게 밝히는 주석
+- 결과를 경고하는 주석  
+    때로는 다른 프로그래머에게 결과를 경고할 목적으로 주석을 사용한다. 
+```java
+    public static SimpleDateFormat makeStandardHttpDateFormat() {
+        // SimpleDateFormat 은 스레드에 안전하지 못하다.
+        // 따라서 각 인스턴스를 독립적으로 생성해야 한다.
+        SimpleDateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return df;
+    }
+```
+   더 나은 해결책이 있다고 필자도 동감하다. 하지만 여기서는 주석이 합리적이다.
+   
+- todo 주석
+    앞으로 할일을 //TODO 주석을 남겨두면 편하다.
+```java
+    //TODO-MdM 현재 필요하지 않다.
+    // 체크아우 모델을 도입하면 함수가 필요없다.
+    protected VersionInfo makeVersion() throws Exception {
+        return null;
+    }
+``` 
+- 중요성을 강조하는 주석
+- 공개 API 에서 Javadocs
+
+#### 4.4 나쁜 주석
+
+- 주절거리는 주석
+- 같은 이야기를 중복하는 주석
+- 오해할 여지가 있는 주석
+- 의무적으로 다는 주석
+- 이력을 기록하는 주석
+- 있으나 마나 한 주석
+- 무서운 잡음
+- 함수나 변수로 표현할 수 있따면 주석을 달지 마라.
+- 위치를 표시하는 주석
+- 닫는 괄호에 다는 주석
+- 공로를 돌리거나 저자를 표시하는 주석
+- 주석으로 처리한 코드
+- HTML 주석
+- 전역 정보
+- 너무 많은 정보 (TMI)
+- 모호한 관계 
+- 함수 헤더
+
+
+    

@@ -22,7 +22,7 @@ function solution(routes) {
             camPosition = routes[i][0]; // 카메라 댓수를 늘린다.
             answer++;
         }
-        for (let j = i+1; j < routes.length; j++) {
+        for (let j = i+1; j < routes.length; j++) { // 진입점 기준으로 커버할 수 있는 곳인지 확인
             if(cam[j] === false && routes[j][1] >= camPosition) {
                 cam[j] = true;
             }

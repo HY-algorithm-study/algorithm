@@ -1034,8 +1034,8 @@ Chapter 4. 스트림 소개
  	반복자와 마찬가지로 스트림도 한번만 탐색할 수 있다.
  	즉, 탐색된 스트림의 요소는 소비된다. 반복자와 마찬가지로 한번 탐색한 요소를 다시 탐색하려면 초기 데이터 소스에서 새로운 스트림을 만들어야 한다.
 
- 	List<String> title = Arrays.asList("java8", "In", "Action");
- 	Stream<String> s = title.stream();
+ 	List<String> flieName = Arrays.asList("java8", "In", "Action");
+ 	Stream<String> s = flieName.stream();
 
  	s.forEach(System.out::println) <- 요소들이 출력된다.
  	s.forEach(System.out::println) <- java.lang.IllegalStateException: 스트림이 이미 소비되었거나 닫힘
